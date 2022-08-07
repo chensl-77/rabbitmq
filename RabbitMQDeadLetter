@@ -1,0 +1,38 @@
+1.“死信”是RabbitMQ中的一种消息机制，当你在消费消息时，如果队列里的消息出现以下情况：
+
+ 1)消息被否定确认，使用 channel.basicNack 或 channel.basicReject ，并且此时requeue 属性被设置为false。
+ 2)消息在队列的存活时间超过设置的TTL时间。
+ 3)消息队列的消息数量已经超过最大队列长度。
+
+“死信”消息会被RabbitMQ进行特殊处理，如果配置了死信队列信息，那么该消息将会被丢进死信队列中，如果没有配置，则该消息将会被丢弃。
+
+2.如何配置死信队列呢？大概可以分为以下步骤：
+
+ 1)配置业务队列，绑定到业务交换机上
+ 2)为业务队列配置死信交换机和路由key
+ 3)为死信交换机配置死信队列
+
+注意：同一个项目的死信交换机可以共用一个，然后为每个业务队列分配一个单独的路由key。
+
+3.“死信”被丢到死信队列中后，
+如果队列配置了参数 x-dead-letter-routing-key 的话，“死信”的路由key将会被替换成该参数对应的值。
+如果没有设置，则保留该消息原有的路由key。另外，由于被抛到了死信交换机，所以消息的Exchange Name也会被替换为死信交换机的名称。
+
+4.RabbitMQ防止数据丢失
+RabbitMQ提供了三种解决的方式，分别是：
+1）消息持久化：
+RabbitMQ是支持消息持久化的，消息持久化需要设置：Exchange为持久化和Queue持久化，这样当消息发送到RabbitMQ服务器时，消息就会持久化。
+2）confirm机制：
+一条消息从生产者发送到RabbitMQ，首先会发送到Exchange，对应回调函数confirm()。
+第二步从Exchange路由分配到Queue中，对应回调函数则是returnedMessage()。
+3）ACK事务机制：（默认自动/手动）：在实际项目中还需要权衡一下并发量和数据的重要性，再决定
+自动：
+  消费端消费消息就确认成功，期间发生异常会导致消息丢失（未消费）
+手动：(开启后注意确认消息)
+ （1）消费端成功确认：void basicAck(long deliveryTag, boolean multiple) throws IOException;
+multiple 表示是否批量处理。true表示批量ack处理小于tag的所有消息。false（推荐）则处理当前消息、deliveryTag：该消息的index
+ （2）消费端失败确认：void basicNack(long deliveryTag, boolean multiple, boolean requeue) throws IOException;
+requeue：被拒绝的是否重新入队列。
+ （3）消费端失败确认：void basicReject(long deliveryTag, boolean requeue) throws IOException;
+
+注意：basicNack()和basicReject()的区别在于：basicNack()可以批量拒绝，basicReject()一次只能拒接一条消息。
