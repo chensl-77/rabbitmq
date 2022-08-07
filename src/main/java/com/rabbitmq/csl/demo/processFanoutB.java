@@ -15,7 +15,6 @@ import java.util.Map;
 @RabbitListener(queuesToDeclare = @Queue(RabbitMQConfig.FANOUT_EXCHANGE_QUEUE_TOPIC_B))
 public class processFanoutB {
 
-
     @RabbitHandler
     public void processFanoutB(Map map,Channel channel,Message message) throws IOException {
         System.out.println("processFanoutB"+map.toString());

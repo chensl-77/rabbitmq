@@ -15,6 +15,7 @@ import java.util.Map;
 @RabbitListener(queuesToDeclare = @Queue(RabbitMQConfig.TOPIC_EXCHANGE_QUEUE_A))
 public class processTopicA {
 
+
     @RabbitHandler
     public void processTopicA(Map map, Channel channel,Message message) throws IOException {
         System.out.println("processTopicA"+map.toString());

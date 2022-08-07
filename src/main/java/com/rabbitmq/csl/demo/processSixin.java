@@ -15,6 +15,13 @@ import java.util.Map;
 @RabbitListener(queuesToDeclare = @Queue(RabbitMQConfig.LIND_TOPIC_EXCHANGE_QUEUE))
 public class processSixin {
 
+    /**
+     * 死信队列
+     * @param map
+     * @param channel
+     * @param message
+     * @throws IOException
+     */
     @RabbitHandler
     public void processSixin(Map map, Channel channel,Message message) throws IOException {
         System.out.println("processSixin"+map.toString());

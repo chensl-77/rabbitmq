@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("ALL")
 @RabbitListener(queuesToDeclare = @Queue(RabbitMQConfig.RABBITMQ_DEMO_TOPIC))
 public class RabbitMQUser_2 {
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 

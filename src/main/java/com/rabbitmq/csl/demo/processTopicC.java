@@ -15,11 +15,6 @@ public class processTopicC {
 
     public static int num = 0;
 
-//    @RabbitHandler
-//    public void processTopicC(Map map){
-//        System.out.println("processTopicC"+map.toString());
-//    }
-
     enum Action {
         //处理成功
         SUCCESS,

@@ -18,10 +18,6 @@ import java.util.Map;
 //@RabbitListener(queuesToDeclare = @Queue(RabbitMQConfig.DELAYED_QUEUE_NAME))
 public class processDelayed {
 
-//    @RabbitHandler
-//    public void process(Map map){
-//        System.out.println("processDelayed"+map);
-//    }
 
     @RabbitListener(queues = RabbitMQConfig.DELAYED_QUEUE_NAME)
     public void receiveD(Message message, Channel channel) throws IOException {
