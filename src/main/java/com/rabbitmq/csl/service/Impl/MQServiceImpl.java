@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public abstract class MQServiceImpl implements MQService {
+public class MQServiceImpl implements MQService {
     //日期格式化
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

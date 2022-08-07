@@ -8,6 +8,13 @@ spring:
 #      mandatory: true
     publisher-confirm-type: correlated
     publisher-returns: true
-
+    listener:
+      simple:
+        acknowledge-mode: manual # 手动ack模式
+        concurrency: 1 # 最少消费者数量
+        max-concurrency: 10 # 最大消费者数量
+  redis:
+    host: 114.132.47.155
+    port: 6379
   main:
     allow-circular-references: true
