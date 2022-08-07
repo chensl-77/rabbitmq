@@ -18,3 +18,5 @@ spring:
     port: 6379
   main:
     allow-circular-references: true
+server:
+  port: 8080
